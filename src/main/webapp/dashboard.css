@@ -163,20 +163,21 @@ tbody td {
 
 /* CAR GRID */
 .car-grid {
-    margin-top: 25px;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
 .car-card {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: block;        /* important for <a> to act like a card */
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
     text-align: center;
-    transition: 0.3s;
+    background-color: #fff;
 }
+
 
 .car-card:hover {
     transform: translateY(-5px);
@@ -313,3 +314,5 @@ tbody td {
     color: red;
     font-weight: bold;
 }
+
+

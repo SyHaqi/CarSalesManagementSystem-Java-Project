@@ -3,25 +3,19 @@ package app.bean;
 import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
 import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.io.IOException;
-
+import java.io.*;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 @MultipartConfig
 @WebServlet("/addCarController")
 public class addCarController extends HttpServlet {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
@@ -33,10 +27,11 @@ public class addCarController extends HttpServlet {
                     deleteCar(request, response);
                     break;
                 case "edit":
-                    editForm(request, response);
+                    showEditForm(request, response);
                     break;
                 default:
                     listCars(request, response);
+                    break;
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -46,64 +41,128 @@ public class addCarController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
+        String action = request.getParameter("action");
+
         try {
-            addCar(request, response);
+            if ("update".equals(action)) {
+                updateCar(request, response); // NEW method for updating
+            } else {
+                addCar(request, response);    // existing method for adding
+            }
         } catch (SQLException e) {
             throw new ServletException(e);
         }
     }
 
+
+    // 1. LIST all cars
     private void listCars(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
-        List<addcarbean> cars = AddCarDAO.getAllCars();
-        request.setAttribute("cars", cars);
+        List<addcarbean> allCars = AddCarDAO.getAllCars();
+
+        // Get search query from the request
+        String query = request.getParameter("search");
+        List<addcarbean> filteredCars = new ArrayList<>();
+
+        if (query != null && !query.isEmpty()) {
+            for (addcarbean car : allCars) {
+                // Check if model or brand contains the query (case-insensitive)
+                if (car.getModel().toLowerCase().contains(query.toLowerCase()) ||
+                    car.getBrand().toLowerCase().contains(query.toLowerCase())) {
+                    filteredCars.add(car);
+                }
+            }
+        } else {
+            filteredCars = allCars;
+        }
+
+        request.setAttribute("cars", filteredCars);
         RequestDispatcher rd = request.getRequestDispatcher("carsection.jsp");
         rd.forward(request, response);
     }
 
-    private void addCar(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
 
-        // Get text fields
+    // 2. DELETE a car
+    private void deleteCar(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException {
+
+        int carID = Integer.parseInt(request.getParameter("carID"));
+        AddCarDAO.deleteCar(carID);
+        System.out.println("Car deleted successfully.");
+        response.sendRedirect("addCarController?action=list");
+    }
+
+    // 3. SHOW edit form for a car
+    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+
+        int carID = Integer.parseInt(request.getParameter("carID"));
+        addcarbean car = AddCarDAO.getCarById(carID);
+        request.setAttribute("car", car);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("editCar.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    // 4. ADD a new car
+    private void addCar(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, ServletException, IOException {
+
         String model = request.getParameter("model");
         String brand = request.getParameter("brand");
         int year = Integer.parseInt(request.getParameter("year"));
         double price = Double.parseDouble(request.getParameter("price"));
         int stock = Integer.parseInt(request.getParameter("stock"));
 
-        // Get uploaded file
-        Part filePart = request.getPart("carImagePath"); // name="car_image" in JSP
+        // Handle file upload
+        Part filePart = request.getPart("carImagePath");
         String fileName = filePart.getSubmittedFileName();
         String uploadDir = getServletContext().getRealPath("/images/cars");
         File uploads = new File(uploadDir);
         if (!uploads.exists()) uploads.mkdirs();
         filePart.write(uploadDir + File.separator + fileName);
-
-        // Save path to DB
         String carImagePath = "images/cars/" + fileName;
 
-        // Create bean and save
+        // Save car
         addcarbean car = new addcarbean(model, brand, price, year, stock, carImagePath);
         AddCarDAO.addCar(car);
 
+        System.out.println("Car added successfully.");
         response.sendRedirect("addCarController?action=list");
     }
-    private void deleteCar(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
 
-        int carID = Integer.parseInt(request.getParameter("carID"));
-        AddCarDAO.deleteCar(carID);
-        response.sendRedirect("AddCarController?action=list");
-    }
-
-    private void editForm(HttpServletRequest request, HttpServletResponse response)
+    // 5. UPDATE an existing car
+    private void updateCar(HttpServletRequest request, HttpServletResponse response)
             throws SQLException, ServletException, IOException {
 
         int carID = Integer.parseInt(request.getParameter("carID"));
+
+        // Fetch existing car from DB
         addcarbean car = AddCarDAO.getCarById(carID);
-        request.setAttribute("car", car);
-        RequestDispatcher rd = request.getRequestDispatcher("editCar.jsp");
-        rd.forward(request, response);
+
+        // Update fields from form
+        car.setModel(request.getParameter("model"));
+        car.setBrand(request.getParameter("brand"));
+        car.setYear(Integer.parseInt(request.getParameter("year")));
+        car.setPrice(Double.parseDouble(request.getParameter("price")));
+        car.setStock(Integer.parseInt(request.getParameter("stock")));
+
+        // Handle file upload (optional)
+        Part filePart = request.getPart("carImagePath");
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = filePart.getSubmittedFileName();
+            String uploadDir = getServletContext().getRealPath("/images/cars");
+            File uploads = new File(uploadDir);
+            if (!uploads.exists()) uploads.mkdirs();
+            filePart.write(uploadDir + File.separator + fileName);
+            car.setCarImagePath("images/cars/" + fileName); // replace old image
+        }
+        // else: keep old image path
+
+        AddCarDAO.updateCar(car);
+
+        System.out.println("Car updated successfully.");
+        response.sendRedirect("addCarController?action=list");
     }
+
 }

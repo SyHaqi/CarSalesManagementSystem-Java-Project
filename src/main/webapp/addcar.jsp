@@ -27,7 +27,7 @@
    <!-- Main Content Only -->
 <div class="main-content">
 <div class="top-right-btn">
-    <a href="carsection.jsp" class="add-car-btn">← Back</a>
+    <a href="addCarController?action=list" class="add-car-btn">← Back</a>
 </div>
 
     <div class="addcar-container">

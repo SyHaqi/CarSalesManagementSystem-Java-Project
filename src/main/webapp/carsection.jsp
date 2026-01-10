@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,33 +45,33 @@
             <input type="text" id="carSearch" placeholder="Search car model or brand...">
         </div>
 
-        <!-- Car Grid Section -->
+		<!-- Car Grid Section -->
 		<div class="car-grid" id="carGrid">
-		
-			<c:forEach items="${cars}" var="car">
-			    <div class="car-card">
-			        <img src="${car.carImagePath}" alt="${car.model}">
-			        <h4>${car.model}</h4>
-			        <p>RM <c:out value="${car.price}" /></p>
-			    </div>
-			</c:forEach>
-
+		    <c:forEach items="${cars}" var="car">
+		        <!-- Make <a> the card itself -->
+		        <a href="addCarController?action=edit&carID=${car.carID}" class="car-card" style="text-decoration: none;">
+		            <img src="${car.carImagePath}" alt="${car.model}">
+		            <h4>${car.model}</h4>
+		            <p>${car.brand}</p>
+		            <p>Year: ${car.year}</p>
+		            <p>RM <fmt:formatNumber value="${car.price}" type="number" groupingUsed="true" /></p>
+		        </a>
+		    </c:forEach>
 		</div>
 		
-        </div>
+		<!-- Search Filter Script -->
+		<script>
+		    document.getElementById("carSearch").addEventListener("keyup", function () {
+		        let filter = this.value.toLowerCase();
+		        let cars = document.querySelectorAll(".car-card"); // now <a> has this class
+		
+		        cars.forEach(card => {
+		            let name = card.querySelector("h4").textContent.toLowerCase();
+		            card.style.display = name.includes(filter) ? "block" : "none"; // hide <a> itself
+		        });
+		    });
+		</script>
 
-        <!-- Search Filter Script -->
-        <script>
-            document.getElementById("carSearch").addEventListener("keyup", function () {
-                let filter = this.value.toLowerCase();
-                let cars = document.querySelectorAll(".car-card");
-
-                cars.forEach(card => {
-                    let name = card.querySelector("h4").textContent.toLowerCase();
-                    card.style.display = name.includes(filter) ? "block" : "none";
-                });
-            });
-        </script>
 
     </div> <!-- END main-content -->
 

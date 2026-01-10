@@ -36,10 +36,13 @@
             </div>
         </header>
 
-        <!-- Search -->
-        <div class="user-search">
-            <input id="userSearch" type="text" placeholder="Search user by name, role, or email...">
-        </div>
+        
+		<!-- Search + Add User Button -->
+		<div class="user-search" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+		    <input id="userSearch" type="text" placeholder="Search user by name, role, or email..." style="flex: 1; margin-right: 15px;">
+		    <button class="add-car-btn" onclick="window.location.href='adduser.jsp'">+ Add User</button>
+		</div>
+
 
         <!-- User Table -->
         <div class="user-table">
