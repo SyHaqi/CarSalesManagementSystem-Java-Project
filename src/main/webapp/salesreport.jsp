@@ -16,7 +16,7 @@
         <h2>CarSales</h2>
         <ul>
             <li onclick="window.location.href='Dashboard.jsp'">Dashboard</li>
-        	<li onclick="window.location.href='carsection.jsp'">Cars</li>
+        	<li onclick="window.location.href='addCarController?action=list'">Cars</li>
             <li class="active" onclick="window.location.href='salesreport.jsp'">Sales Report</li>
             <li>Sales Entry</li>
             <li onclick="window.location.href='usersection.jsp'">Users</li>

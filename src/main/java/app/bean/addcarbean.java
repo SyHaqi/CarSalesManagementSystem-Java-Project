@@ -3,38 +3,50 @@ package app.bean;
 import java.io.Serializable;
 
 public class addcarbean implements Serializable {
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public String car_name;
-	public int year;
-	public double price;
-	private String carImagePath;
-	
-	public addcarbean(String car_name, int year, double price, String carImagePath) {
-		super();
-		this.car_name = car_name;
-		this.year = year;
-		this.price = price;
-		this.carImagePath = carImagePath;
+
+    private static final long serialVersionUID = 1L;
+
+    private int carID;
+    private String model;
+    private String brand;
+    private double price;
+    private int year;
+    private int stock;
+    private String carImagePath;
+
+    public addcarbean() {}
+
+    public addcarbean(String model, String brand, double price, int year, int stock, String carImagePath) {
+        this.model = model;
+        this.brand = brand;
+        this.price = price;
+        this.year = year;
+        this.stock = stock;
+        this.carImagePath = carImagePath;
+    }
+
+	public int getCarID() {
+		return carID;
 	}
 
-	public String getCar_name() {
-		return car_name;
+	public void setCarID(int carID) {
+		this.carID = carID;
 	}
 
-	public void setCar_name(String car_name) {
-		this.car_name = car_name;
+	public String getModel() {
+		return model;
 	}
 
-	public int getYear() {
-		return year;
+	public void setModel(String model) {
+		this.model = model;
 	}
 
-	public void setYear(int year) {
-		this.year = year;
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
 	}
 
 	public double getPrice() {
@@ -45,6 +57,22 @@ public class addcarbean implements Serializable {
 		this.price = price;
 	}
 
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
 	public String getCarImagePath() {
 		return carImagePath;
 	}
@@ -52,11 +80,10 @@ public class addcarbean implements Serializable {
 	public void setCarImagePath(String carImagePath) {
 		this.carImagePath = carImagePath;
 	}
-	
-	
-	
-	
-	
-	
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+    
 }

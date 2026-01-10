@@ -16,7 +16,7 @@
         <h2>CarSales</h2>
         <ul>
             <li onclick="window.location.href='Dashboard.jsp'">Dashboard</li>
-        	<li class="active" onclick="window.location.href='carsection.jsp'">Cars</li>
+        	<li class="active" onclick="window.location.href='addCarController?action=list'">Cars</li>
             <li onclick="window.location.href='salesreport.jsp'">Sales Report</li>
             <li>Sales Entry</li>
             <li onclick="window.location.href='usersection.jsp'">Users</li>
@@ -45,26 +45,18 @@
         </div>
 
         <!-- Car Grid Section -->
-        <div class="car-grid" id="carGrid">
+		<div class="car-grid" id="carGrid">
+		
+			<c:forEach items="${cars}" var="car">
+			    <div class="car-card">
+			        <img src="${car.carImagePath}" alt="${car.model}">
+			        <h4>${car.model}</h4>
+			        <p>RM <c:out value="${car.price}" /></p>
+			    </div>
+			</c:forEach>
 
-            <div class="car-card">
-                <img src="images/cars/honda_city.jpg" alt="Honda City">
-                <h4>Honda City</h4>
-                <p>RM 92,000</p>
-            </div>
-
-            <div class="car-card">
-                <img src="images/cars/proton_x50.jpg" alt="Proton X50">
-                <h4>Proton X50</h4>
-                <p>RM 85,200</p>
-            </div>
-
-            <div class="car-card">
-                <img src="images/cars/toyota_vios.jpg" alt="Toyota Vios">
-                <h4>Toyota Vios</h4>
-                <p>RM 78,900</p>
-            </div>
-
+		</div>
+		
         </div>
 
         <!-- Search Filter Script -->

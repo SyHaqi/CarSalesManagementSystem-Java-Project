@@ -16,7 +16,7 @@
         <h2>CarSales</h2>
         <ul>
             <li onclick="window.location.href='Dashboard.jsp'">Dashboard</li>
-        	<li class="active" onclick="window.location.href='carsection.jsp'">Cars</li>
+        	<li class="active" onclick="window.location.href='addCarController?action=list'">Cars</li>
             <li onclick="window.location.href='salesreport.jsp'">Sales Report</li>
             <li>Sales Entry</li>
             <li onclick="window.location.href='usersection.jsp'">Users</li>
@@ -33,11 +33,11 @@
     <div class="addcar-container">
         <h2>Add New Car</h2>
 
-        <form action="#" method="post" enctype="multipart/form-data">
+        <form action="addCarController" method="post" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label>Car Name</label>
-                <input type="text" name="car_name" placeholder="e.g. Honda City" required>
+                <input type="text" name="model" placeholder="e.g. Honda City" required>
             </div>
 
             <div class="form-group">
@@ -54,18 +54,23 @@
             </div>
 
             <div class="form-group">
-                <label>Year</label>
-                <input type="number" name="year" min="1990" max="2025" placeholder="e.g. 2023" required>
-            </div>
-
-            <div class="form-group">
                 <label>Price (RM)</label>
                 <input type="number" name="price" placeholder="e.g. 85000" required>
             </div>
 
             <div class="form-group">
+                <label>Year</label>
+                <input type="number" name="year" min="1990" max="2025" placeholder="e.g. 2023" required>
+            </div>
+
+            <div class="form-group">
+                <label>Stock</label>
+                <input type="number" name="stock" placeholder="e.g. 10" required>
+            </div>
+
+            <div class="form-group">
                 <label>Car Image</label>
-                <input type="file" name="car_image" accept="image/*" required>
+                <input type="file" name="carImagePath" accept="image/*" required>
             </div>
 
             <button type="submit" class="add-car-btn">Save Car</button>
