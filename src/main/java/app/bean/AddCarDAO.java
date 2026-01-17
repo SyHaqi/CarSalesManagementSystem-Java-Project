@@ -102,6 +102,34 @@ public class AddCarDAO {
         ps.executeUpdate();
         ps.close();
     }
+    
+    public static List<addcarbean> getCarsInStock() throws SQLException {
+        List<addcarbean> list = new ArrayList<>();
+        String sql = "SELECT * FROM cars WHERE stock > 0 ORDER BY brand, model";
+
+        connection = ConnectionManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            addcarbean car = new addcarbean(
+                rs.getString("model"),
+                rs.getString("brand"),
+                rs.getDouble("price"),
+                rs.getInt("year"),
+                rs.getInt("stock"),
+                rs.getString("carImagePath")
+            );
+            car.setCarID(rs.getInt("carID"));
+            list.add(car);
+        }
+
+        rs.close();
+        ps.close();
+        connection.close();
+        return list;
+    }
+
 
     // DELETE
     public static void deleteCar(int carID) throws SQLException {

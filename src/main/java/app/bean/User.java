@@ -2,7 +2,7 @@ package app.bean;
 
 import java.io.Serializable;
 
-public class loginbean implements Serializable {
+public class User implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -13,14 +13,16 @@ public class loginbean implements Serializable {
 	private String role;
 	private String email;
 	private boolean loggedIn = false;
+	private String avatar;
+	private String getAvatar;
 	
-	public loginbean() {
+	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public loginbean(int userId, String username, String password, String fullname, String role, String email,
-			boolean loggedIn) {
+	public User(int userId, String username, String password, String fullname, String role, String email,
+			boolean loggedIn, String avatar, String getAvatar) {
 		super();
 		this.userId = userId;
 		this.username = username;
@@ -29,6 +31,8 @@ public class loginbean implements Serializable {
 		this.role = role;
 		this.email = email;
 		this.loggedIn = loggedIn;
+		this.avatar = avatar;
+		this.getAvatar = getAvatar;
 	}
 
 	public int getUserId() {
@@ -90,6 +94,23 @@ public class loginbean implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public String getGetAvatar() {
+		return getAvatar;
+	}
+
+	public void setGetAvatar(String getAvatar) {
+		this.getAvatar = getAvatar;
+	}
+	
 	
 	
 

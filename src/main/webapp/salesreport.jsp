@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,125 +12,134 @@
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+<%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <h2>CarSales</h2>
-        <ul>
-            <li onclick="window.location.href='Dashboard.jsp'">Dashboard</li>
-        	<li onclick="window.location.href='addCarController?action=list'">Cars</li>
-            <li class="active" onclick="window.location.href='salesreport.jsp'">Sales Report</li>
-            <li>Sales Entry</li>
-            <li onclick="window.location.href='usersection.jsp'">Users</li>
-            <li onclick="window.location.href='LogoutController'">Logout</li>
-        </ul>
-    </div>
+if (session.getAttribute("login") == null) {
+    response.sendRedirect("LoginPage.jsp");
+    return;
+}
+%>
 
-   <!-- Main Content Only -->
-<div class="main-content">
-<div class="top-right-btn">
-    <a href="carsection.html" class="add-car-btn">← Back</a>
+<div class="sidebar">
+    <h2>CarSales</h2>
+    <ul>
+        <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
+        <li onclick="window.location.href='addCarController?action=list'">Cars</li>
+        <li class="active" onclick="window.location.href='SalesReportController'">Sales Report</li>
+        <li onclick="window.location.href='SalesController'">Sales Entry</li>
+        <li onclick="window.location.href='addUserController?action=list'">Users</li>
+        <li onclick="window.location.href='LogoutController'">Logout</li>
+    </ul>
 </div>
 
-    <div class="addcar-container">
-        <h2>Sales Report</h2>
+<div class="main-content">
 
-        <form action="#" method="post" enctype="multipart/form-data">
+    <header>
+	    <h1>Sales Report</h1>
+	
+	    <div class="profile">
+	        <img src="${empty sessionScope.login.avatar ? 'images/users/avatar-default.png' : sessionScope.login.avatar}" alt="User">
+	        <span>${sessionScope.login.username}</span>
+	    </div>
+	</header>
 
-            
+
+    <div class="report-container">
+
+
+        <!-- Filter -->
+        <form action="SalesReportController" method="get">
+
             <fieldset>
-            <legend>Form:</legend>
-            <div class="form-group">
-                <div>
-                <label for="start">Start</label>
-                <input type="date" id="start" name="start">
-                </div>
-                <div>
-                <label for="end">End</label>
-                <input type="date" id="end" name="end">
-                </div>
-                
-            </div>
-            <button type="submit" class="add-car-btn">Filter</button>
-           </fieldset>
+                <legend>Filter</legend>
 
-           <!-- Table Section -->
-        <div class="table-section">
+                <div class="form-group" style="display:flex; gap:20px;">
+                    <div>
+                        <label for="start">Start</label>
+                        <input type="date" id="start" name="start" value="${param.start}">
+                    </div>
+                    <div>
+                        <label for="end">End</label>
+                        <input type="date" id="end" name="end" value="${param.end}">
+                    </div>
+                </div>
+
+                <button type="submit" class="add-car-btn">Filter</button>
+                <a href="SalesReportController" class="add-car-btn" style="margin-left:10px;">Reset</a>
+            </fieldset>
 
             <!-- KPI Cards -->
-        <div class="kpi-container">
+            <div class="kpi-container" style="margin-top:20px;">
+                <div class="kpi-card">
+                    <h3>Total Cars Sold</h3>
+                    <p>${totalCarsSold}</p>
+                </div>
 
-            <div class="kpi-card">
-                <h3>Total Cars Sold</h3>
-                <p>3</p>
+                <div class="kpi-card">
+                    <h3>Total Revenue</h3>
+                    <p>RM <fmt:formatNumber value="${totalRevenue}" type="number" groupingUsed="true"/></p>
+                </div>
+
+                <div class="kpi-card">
+                    <h3>Total Commission Earned</h3>
+                    <p>RM <fmt:formatNumber value="${totalCommission}" type="number" groupingUsed="true"/></p>
+                </div>
+
+                <div class="kpi-card">
+                    <h3>Cars In Inventory</h3>
+                    <p>${carsInInventory}</p>
+                </div>
             </div>
 
-            <div class="kpi-card">
-                <h3>Total Revenue</h3>
-                <p>RM 256,100</p>
+            <h3 style="margin-top:25px;">Report Summary</h3>
+
+            <div class="table-section">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Customer</th>
+                            <th>Car Model</th>
+                            <th>Total Cost</th>
+                            <th>Salesperson</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:choose>
+                            <c:when test="${empty report}">
+                                <tr>
+                                    <td colspan="5">No sales found for the selected date range.</td>
+                                </tr>
+                            </c:when>
+                            <c:otherwise>
+                                <c:forEach items="${report}" var="r">
+                                    <tr>
+                                        <td>
+										  <a href="SalesConfirmController?saleId=${r.saleId}" style="text-decoration:none; color:inherit;">
+										    ${r.customerName}
+										  </a>
+										</td>
+                                        <td>${r.carName}</td>
+                                        <td>RM <fmt:formatNumber value="${r.totalCost}" type="number" groupingUsed="true"/></td>
+                                        <td>${r.salesperson}</td>
+                                        <td>${r.saleDate}</td>
+                                    </tr>
+                                </c:forEach>
+                            </c:otherwise>
+                        </c:choose>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="kpi-card">
-                <h3>Total Commission Earned</h3>
-                <p>RM 17,927</p>
-            </div>
-
-            <div class="kpi-card">
-                <h3>Cars In Inventory</h3>
-                <p>3</p>
-            </div>
-
-        </div>
-
-            <h3>Report Summary</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Customer</th>
-                        <th>Car Model</th>
-                        <th>Price</th>
-                        <th>Salesperson</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Ahmad Zaki</td>
-                        <td>Honda City</td>
-                        <td>RM 92,000</td>
-                        <td>Faris</td>
-                        <td>2025-03-12</td>
-                    </tr>
-                    <tr>
-                        <td>Siti Aminah</td>
-                        <td>Proton X50</td>
-                        <td>RM 85,200</td>
-                        <td>Izzul</td>
-                        <td>2025-03-10</td>
-                    </tr>
-                    <tr>
-                        <td>John Lim</td>
-                        <td>Toyota Vios</td>
-                        <td>RM 78,900</td>
-                        <td>Baihaqi</td>
-                        <td>2025-04-08</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            
-
-            <button type="submit" class="add-car-btn">Print</button>
-
-        </div>
-            
+            <button type="button" class="add-car-btn" style="margin-top:15px;" onclick="window.print()">Print</button>
 
         </form>
 
     </div>
-
 </div>
-
 
 </body>
 </html>

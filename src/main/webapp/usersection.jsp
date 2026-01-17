@@ -11,38 +11,49 @@
     <link rel="stylesheet" href="users.css">
 </head>
 <body>
+<%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+
+if (session.getAttribute("login") == null) {
+    response.sendRedirect("LoginPage.jsp");
+    return;
+}
+%>
+
 
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>CarSales</h2>
         <ul>
-            <li onclick="window.location.href='Dashboard.jsp'">Dashboard</li>
-        	<li onclick="window.location.href='addCarController?action=list'">Cars</li>
-            <li onclick="window.location.href='salesreport.jsp'">Sales Report</li>
-            <li>Sales Entry</li>
-            <li class="active" onclick="window.location.href='usersection.jsp'">Users</li>
+            <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
+            <li onclick="window.location.href='addCarController?action=list'">Cars</li>
+            <li onclick="window.location.href='SalesReportController'">Sales Report</li>
+            <li onclick="window.location.href='SalesController'">Sales Entry</li>
+            <li class="active" onclick="window.location.href='addUserController?action=list'">Users</li>
             <li onclick="window.location.href='LogoutController'">Logout</li>
         </ul>
     </div>
 
-    <!-- Main Content (REPLACED with Users Section) -->
+    <!-- Main Content -->
     <div class="main-content">
 
         <header>
             <h1>Users</h1>
+
             <div class="profile">
-                <img src="images/avatar2.png" alt="User">
-                <span>Welcome, Admin</span>
-            </div>
+			    <img src="${empty sessionScope.login.avatar ? 'images/users/avatar-default.png' : sessionScope.login.avatar}" alt="User">
+			    <span>${sessionScope.login.username}</span>
+			</div>
+
         </header>
 
-        
-		<!-- Search + Add User Button -->
-		<div class="user-search" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
-		    <input id="userSearch" type="text" placeholder="Search user by name, role, or email..." style="flex: 1; margin-right: 15px;">
-		    <button class="add-car-btn" onclick="window.location.href='adduser.jsp'">+ Add User</button>
-		</div>
-
+        <!-- Search + Add User Button -->
+        <div class="user-search" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+            <input id="userSearch" type="text" placeholder="Search user by name, role, or email..." style="flex: 1; margin-right: 15px;">
+            <button class="add-car-btn" onclick="window.location.href='adduser.jsp'">+ Add User</button>
+        </div>
 
         <!-- User Table -->
         <div class="user-table">
@@ -53,37 +64,27 @@
                         <th>Name</th>
                         <th>Email</th>
                         <th>Role</th>
-                        <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
                 <tbody>
-
-                    <tr>
-                        <td><img src="images/users/user1.jpg"></td>
-                        <td>Ahmad Zaki</td>
-                        <td>ahmadzaki@example.com</td>
-                        <td>Admin</td>
-                        <td><span class="status-active">Active</span></td>
-                    </tr>
-
-                    <tr>
-                        <td><img src="images/users/user2.jpg"></td>
-                        <td>Faris Izzat</td>
-                        <td>faris@example.com</td>
-                        <td>Salesperson</td>
-                        <td><span class="status-active">Active</span></td>
-                    </tr>
-
-                    <tr>
-                        <td><img src="images/users/user3.jpg"></td>
-                        <td>Siti Aminah</td>
-                        <td>siti@example.com</td>
-                        <td>Staff</td>
-                        <td><span class="status-disabled">Disabled</span></td>
-                    </tr>
-
+                    <c:forEach items="${users}" var="u">
+                        <tr>
+                            <td>
+                                <img src="${empty u.avatar ? 'images/users/avatar-default.png' : u.avatar}">
+                            </td>
+                            <td>${u.fullname}</td>
+                            <td>${u.email}</td>
+                            <td>${u.role}</td>
+                            <td>
+                                <a href="addUserController?action=edit&userId=${u.userId}">Edit</a> |
+                                <a href="addUserController?action=delete&userId=${u.userId}" onclick="return confirm('Delete this user?');">Delete</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
                 </tbody>
+
             </table>
         </div>
 

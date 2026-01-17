@@ -10,16 +10,27 @@
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+<%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+
+if (session.getAttribute("login") == null) {
+    response.sendRedirect("LoginPage.jsp");
+    return;
+}
+%>
+
 
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>CarSales</h2>
         <ul>
-            <li onclick="window.location.href='Dashboard.jsp'">Dashboard</li>
+            <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
         	<li class="active" onclick="window.location.href='addCarController?action=list'">Cars</li>
-            <li onclick="window.location.href='salesreport.jsp'">Sales Report</li>
-            <li>Sales Entry</li>
-            <li onclick="window.location.href='usersection.jsp'">Users</li>
+            <li class="active" onclick="window.location.href='SalesReportController'">Sales Report</li>
+            <li onclick="window.location.href='salesentry.jsp'">Sales Entry</li>
+            <li onclick="window.location.href='addUserController?action=list'">Users</li>
             <li onclick="window.location.href='LogoutController'">Logout</li>
         </ul>
     </div>

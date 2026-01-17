@@ -11,16 +11,27 @@
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
+<%
+response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+response.setHeader("Pragma", "no-cache");
+response.setDateHeader("Expires", 0);
+
+if (session.getAttribute("login") == null) {
+    response.sendRedirect("LoginPage.jsp");
+    return;
+}
+%>
+
 
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>CarSales</h2>
         <ul>
-            <li onclick="window.location.href='Dashboard.jsp'">Dashboard</li>
+            <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
         	<li class="active" onclick="window.location.href='addCarController?action=list'">Cars</li>
-            <li onclick="window.location.href='salesreport.jsp'">Sales Report</li>
-            <li>Sales Entry</li>
-            <li onclick="window.location.href='usersection.jsp'">Users</li>
+            <li onclick="window.location.href='SalesReportController'">Sales Report</li>
+            <li onclick="window.location.href='SalesController'">Sales Entry</li>
+            <li onclick="window.location.href='addUserController?action=list'">Users</li>
             <li onclick="window.location.href='LogoutController'">Logout</li>
         </ul>
     </div>
@@ -30,20 +41,23 @@
 
         <header>
             <h1>Cars</h1>
-
-            <div class="header-right">
-            <button class="add-car-btn" onclick="window.location.href='addcar.jsp'">
-    + Add Car
-</button>
-
-        </div>
+            <div class="profile">
+	            <img src="${empty sessionScope.login.avatar ? 'images/users/avatar-default.png' : sessionScope.login.avatar}" alt="User">
+	            <span>${sessionScope.login.username}</span>
+	        </div>
         </header>
 
 
-        <!-- Car Search Section -->
-        <div class="car-search-section">
-            <input type="text" id="carSearch" placeholder="Search car model or brand...">
-        </div>
+        
+        <!-- Car Search Section + Add Car Button -->
+		<div class="car-search-section" style="display:flex; justify-content: center; align-items:center; gap:15px;">
+		    <input type="text" id="carSearch" placeholder="Search car model or brand..." style="width:50%;">
+		    
+		    <button class="add-car-btn" onclick="window.location.href='addcar.jsp'">
+		        + Add Car
+		    </button>
+		</div>
+
 
 		<!-- Car Grid Section -->
 		<div class="car-grid" id="carGrid">

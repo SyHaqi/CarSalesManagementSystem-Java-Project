@@ -13,37 +13,41 @@ import java.sql.SQLException;
 
 @WebServlet("/LoginController")
 public class LoginController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
 
-		loginbean login = new loginbean();
-		login.setUsername(username);
-		login.setPassword(password);
+        User login = new User();
+        login.setUsername(username);
+        login.setPassword(password);
 
-		try {
-			login = UserDAO.login(login);
+        try {
+            login = UserDAO.login(login);
 
-			if (login.isLoggedIn()) {
-				HttpSession session = request.getSession(true);
-				session.setAttribute("login", login);
-				session.setAttribute("userid", login.getUserId());
-				session.setAttribute("username", login.getUsername());
+            if (login.isLoggedIn()) {
+                HttpSession session = request.getSession(true);
 
-				response.sendRedirect("Dashboard.jsp");
-			} else {
-				request.setAttribute("errorMessage", "Invalid username or password.");
-				request.getRequestDispatcher("LoginPage.jsp").forward(request, response);
-			}
+                // ✅ store the full user in session
+                session.setAttribute("login", login);
 
-		} catch (SQLException | NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			request.setAttribute("errorMessage", "System error. Please try again.");
-			request.getRequestDispatcher("LoginPage.jsp").forward(request, response);
-		}
-	}
+                // optional (keep if you still use elsewhere)
+                session.setAttribute("userid", login.getUserId());
+                session.setAttribute("username", login.getUsername());
+
+                response.sendRedirect("SalesReportController?action=dashboard");
+            } else {
+                request.setAttribute("errorMessage", "Invalid username or password.");
+                request.getRequestDispatcher("LoginPage.jsp").forward(request, response);
+            }
+
+        } catch (SQLException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            request.setAttribute("errorMessage", "System error. Please try again.");
+            request.getRequestDispatcher("LoginPage.jsp").forward(request, response);
+        }
+    }
 }
