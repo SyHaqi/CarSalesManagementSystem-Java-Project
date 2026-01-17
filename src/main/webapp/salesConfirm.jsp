@@ -81,7 +81,10 @@ if (session.getAttribute("login") == null) {
             Total Cost: RM <fmt:formatNumber value="${totalCost}" type="number" groupingUsed="true"/>
         </h3>
 
-        <a href="salesreport.jsp" class="add-car-btn" style="display:inline-block; margin-top:15px;">View Sales Report</a>
+        <a href="SalesReportController" class="add-car-btn" style="display:inline-block; margin-top:15px;">
+		    View Sales Report
+		</a>
+
     </div>
 </div>
 
