@@ -26,14 +26,30 @@ if (session.getAttribute("login") == null) {
     <!-- Sidebar -->
     <div class="sidebar">
         <h2>CarSales</h2>
-        <ul>
-            <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
-            <li onclick="window.location.href='addCarController?action=list'">Cars</li>
-            <li onclick="window.location.href='SalesReportController'">Sales Report</li>
-            <li onclick="window.location.href='SalesController'">Sales Entry</li>
-            <li class="active" onclick="window.location.href='addUserController?action=list'">Users</li>
-            <li onclick="window.location.href='LogoutController'">Logout</li>
-        </ul>
+        <c:set var="role" value="${sessionScope.login.role}" />
+
+			<ul>
+			  <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
+			
+			  <c:if test="${role == 'Admin' || role == 'Salesperson' || role == 'Staff'}">
+			    <li onclick="window.location.href='addCarController?action=list'">Cars</li>
+			  </c:if>
+			
+			  <c:if test="${role == 'Admin'}">
+			    <li class="active" onclick="window.location.href='addUserController?action=list'">Users</li>
+			  </c:if>
+			
+			  <c:if test="${role == 'Admin' || role == 'Staff'}">
+			    <li onclick="window.location.href='SalesReportController'">Sales Report</li>
+			  </c:if>
+			
+			  <c:if test="${role == 'Admin' || role == 'Salesperson'}">
+			    <li onclick="window.location.href='SalesController'">Sales Entry</li>
+			  </c:if>
+			
+			  <li onclick="window.location.href='LogoutController'">Logout</li>
+			</ul>
+
     </div>
 
     <!-- Main Content -->

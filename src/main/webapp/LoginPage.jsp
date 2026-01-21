@@ -22,7 +22,7 @@
         	<button type="submit">Login</button>
     	</form>
     	<div class="register-container">
-            <a href="Register.jsp" class="register-link">Register</a>
+            <a href="register.jsp" class="register-link">Register</a>
         </div>
     	
 	</div>

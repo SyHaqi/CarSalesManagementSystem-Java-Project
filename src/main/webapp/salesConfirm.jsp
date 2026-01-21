@@ -25,14 +25,27 @@ if (session.getAttribute("login") == null) {
 
 <div class="sidebar">
     <h2>CarSales</h2>
-    <ul>
-        <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
-        <li onclick="window.location.href='addCarController?action=list'">Cars</li>
-        <li class="active" onclick="window.location.href='SalesReportController'">Sales Report</li>
-        <li class="active" onclick="window.location.href='SalesController'">Sales Entry</li>
-        <li onclick="window.location.href='addUserController?action=list'">Users</li>
-        <li onclick="window.location.href='LogoutController'">Logout</li>
-    </ul>
+	    <ul>
+			  <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
+			
+			  <c:if test="${role == 'Admin' || role == 'Salesperson' || role == 'Staff'}">
+			    <li onclick="window.location.href='addCarController?action=list'">Cars</li>
+			  </c:if>
+			
+			  <c:if test="${role == 'Admin'}">
+			    <li onclick="window.location.href='addUserController?action=list'">Users</li>
+			  </c:if>
+			
+			  <c:if test="${role == 'Admin' || role == 'Staff'}">
+			    <li onclick="window.location.href='SalesReportController'">Sales Report</li>
+			  </c:if>
+			
+			  <c:if test="${role == 'Admin' || role == 'Salesperson'}">
+			    <li active="class" onclick="window.location.href='SalesController'">Sales Entry</li>
+			  </c:if>
+			
+			  <li onclick="window.location.href='LogoutController'">Logout</li>
+			</ul>
 </div>
 
 <div class="main-content">
@@ -81,9 +94,12 @@ if (session.getAttribute("login") == null) {
             Total Cost: RM <fmt:formatNumber value="${totalCost}" type="number" groupingUsed="true"/>
         </h3>
 
-        <a href="SalesReportController" class="add-car-btn" style="display:inline-block; margin-top:15px;">
-		    View Sales Report
-		</a>
+        <c:if test="${sessionScope.login.role == 'Admin'}">
+		    <a href="SalesReportController" class="add-car-btn" style="display:inline-block; margin-top:15px;">
+		        View Sales Report
+		    </a>
+		</c:if>
+
 
     </div>
 </div>

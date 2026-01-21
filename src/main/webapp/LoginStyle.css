@@ -6,8 +6,9 @@ body {
     height: 100vh;             /* full screen height */
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    
-    background-color:#e6f0ff;
+
+    /* match your system theme */
+    background: #0f172a; /* dark navy */
 }
 
 input, button {
@@ -15,55 +16,91 @@ input, button {
     width: 100%;
 }
 
-.register-container {
-    text-align: right;
-    margin-top: 10px;
+/* Optional: Box styling */
+.center-box {
+    text-align: center;
+    width: 320px;
 }
 
+/* The box / card */
+.login-card {
+    width: 320px;
+    padding: 26px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 10px 25px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+/* Title */
+.login-card h2 {
+    margin: 0 0 16px;
+    color: #1e3a8a; /* same as sidebar */
+    font-size: 24px;
+}
+
+/* Style for inputs */
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 14px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: 1px solid #aab3c5;
+    font-size: 15px;
+}
+
+/* Focus effect */
+input[type=text]:focus, input[type=password]:focus {
+    outline: none;
+    border-color: #1e3a8a;
+    box-shadow: 0 0 0 3px rgba(30,58,138,0.15);
+}
+
+/* Button styling */
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #1e3a8a; /* match theme */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    transition: 0.25s ease;
+}
+
+button:hover {
+    background-color: #374fc7; /* hover like your system */
+    transform: translateY(-2px);
+}
+
+/* Register link container */
+.register-container {
+    text-align: right;
+    margin-top: 12px;
+}
+
+/* Register hyperlink */
 .register-link {
     font-size: 14px;
-    color: #0077cc;
+    color: #1e3a8a;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .register-link:hover {
     text-decoration: underline;
 }
 
-
-/* The box / card */
-.login-card {
-    width: 300px;
-    padding: 25px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0px 4px 15px rgba(0,0,0,0.15);
-    text-align: center;
-}
-
-/* Optional: Box styling */
-.center-box {
-    text-align: center;
-    width: 300px;
-}
-
-/* Style for inputs */
-input[type=text], input[type=password] {
-    width: 100%;
+/* (Optional) Error message style if you use it */
+.error-message {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
     padding: 10px;
-    margin: 8px 0;
-}
-
-/* Button styling */
-button {
-    width: 100%;
-    padding: 10px;
-    background-color: #579aff;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    opacity: 0.8;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    text-align: left;
 }
