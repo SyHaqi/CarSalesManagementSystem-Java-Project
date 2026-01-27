@@ -18,7 +18,7 @@
         <ul>
             <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
             <li class="active" onclick="window.location.href='addCarController?action=list'">Cars</li>
-            <li class="active" onclick="window.location.href='SalesReportController'">Sales Report</li>
+            <li onclick="window.location.href='SalesReportController'">Sales Report</li>
             <li onclick="window.location.href='SalesController'">Sales Entry</li>
             <li onclick="window.location.href='addUserController?action=list'">Users</li>
             <li onclick="window.location.href='LogoutController'">Logout</li>
@@ -70,7 +70,7 @@
 
                     <div class="form-group">
                         <label>Car Image</label>
-                        <input type="file" name="carImage">
+                        <input type="file" name="carImagePath">
                     </div>
 
                     <div class="header-right" style="margin-top: 20px; gap: 15px;">
