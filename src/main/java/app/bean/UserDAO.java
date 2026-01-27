@@ -14,7 +14,7 @@ public class UserDAO {
     private static ResultSet rs = null;
 
     private static final String SELECT_LOGIN =
-        "SELECT userId, username, fullname, role, email, avatar FROM loginpage WHERE username = ? AND password = ?";
+        "SELECT userId, username, fullname, role, email, avatar FROM user WHERE username = ? AND password = ?";
 
     public static User login(User login)
             throws SQLException, NoSuchAlgorithmException {

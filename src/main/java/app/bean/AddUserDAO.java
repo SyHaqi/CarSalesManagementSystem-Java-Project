@@ -23,7 +23,7 @@ public class AddUserDAO {
 
     // CREATE
     public static void addUser(User user) throws SQLException, NoSuchAlgorithmException {
-        String sql = "INSERT INTO loginpage (username, password, fullname, role, email, avatar) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user (username, password, fullname, role, email, avatar) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
             connection = ConnectionManager.getConnection();
@@ -46,7 +46,7 @@ public class AddUserDAO {
     // READ ALL
     public static List<User> getAllUsers() throws SQLException {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT userId, username, fullname, role, email, avatar FROM loginpage";
+        String sql = "SELECT userId, username, fullname, role, email, avatar FROM user";
 
         try {
             connection = ConnectionManager.getConnection();
@@ -76,7 +76,7 @@ public class AddUserDAO {
     // READ BY ID
     public static User getUserById(int userId) throws SQLException {
         User u = null;
-        String sql = "SELECT userId, username, fullname, role, email, avatar FROM loginpage WHERE userId = ?";
+        String sql = "SELECT userId, username, fullname, role, email, avatar FROM user WHERE userId = ?";
 
         try {
             connection = ConnectionManager.getConnection();
@@ -115,13 +115,13 @@ public class AddUserDAO {
         String sql;
 
         if (updatePassword && updateAvatar) {
-            sql = "UPDATE loginpage SET username=?, password=?, fullname=?, role=?, email=?, avatar=? WHERE userId=?";
+            sql = "UPDATE user SET username=?, password=?, fullname=?, role=?, email=?, avatar=? WHERE userId=?";
         } else if (updatePassword) {
-            sql = "UPDATE loginpage SET username=?, password=?, fullname=?, role=?, email=? WHERE userId=?";
+            sql = "UPDATE user SET username=?, password=?, fullname=?, role=?, email=? WHERE userId=?";
         } else if (updateAvatar) {
-            sql = "UPDATE loginpage SET username=?, fullname=?, role=?, email=?, avatar=? WHERE userId=?";
+            sql = "UPDATE user SET username=?, fullname=?, role=?, email=?, avatar=? WHERE userId=?";
         } else {
-            sql = "UPDATE loginpage SET username=?, fullname=?, role=?, email=? WHERE userId=?";
+            sql = "UPDATE user SET username=?, fullname=?, role=?, email=? WHERE userId=?";
         }
 
         try {
@@ -155,7 +155,7 @@ public class AddUserDAO {
 
     // DELETE
     public static void deleteUser(int userId) throws SQLException {
-        String sql = "DELETE FROM loginpage WHERE userId = ?";
+        String sql = "DELETE FROM user WHERE userId = ?";
 
         try {
             connection = ConnectionManager.getConnection();

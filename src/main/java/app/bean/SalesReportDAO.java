@@ -15,7 +15,7 @@ public class SalesReportDAO {
         sql.append("       c.brand, c.model, u.username ");
         sql.append("FROM sales s ");
         sql.append("JOIN cars c ON s.carID = c.carID ");
-        sql.append("JOIN loginpage u ON s.userId = u.userId ");
+        sql.append("JOIN user u ON s.userId = u.userId ");
 
         if (start != null && end != null) {
             sql.append("WHERE s.saleDate BETWEEN ? AND ? ");
@@ -143,7 +143,7 @@ public class SalesReportDAO {
             "       c.brand, c.model, u.username " +
             "FROM sales s " +
             "JOIN cars c ON s.carID = c.carID " +
-            "JOIN loginpage u ON s.userId = u.userId " +
+            "JOIN user u ON s.userId = u.userId " +
             "ORDER BY s.saleDate DESC, s.saleID DESC " +
             "LIMIT ?";
 
