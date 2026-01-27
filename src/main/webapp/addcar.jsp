@@ -53,15 +53,7 @@ if (session.getAttribute("login") == null) {
 
             <div class="form-group">
                 <label>Brand</label>
-                <select name="brand" required>
-                    <option value="" disabled selected>Select brand</option>
-                    <option>Honda</option>
-                    <option>Toyota</option>
-                    <option>Proton</option>
-                    <option>Perodua</option>
-                    <option>BMW</option>
-                    <option>Mercedes</option>
-                </select>
+                <input type="text" name="brand" placeholder="e.g. Honda" required>
             </div>
 
             <div class="form-group">

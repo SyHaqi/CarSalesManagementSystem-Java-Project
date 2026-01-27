@@ -94,6 +94,7 @@ if (session.getAttribute("login") == null) {
 	                    <h4>${car.model}</h4>
 	                    <p>${car.brand}</p>
 	                    <p>Year: ${car.year}</p>
+	                    <p>Stock: ${car.stock}</p>
 	                    <p>RM <fmt:formatNumber value="${car.price}" type="number" groupingUsed="true" /></p>
 	                </a>
 	            </c:otherwise>
