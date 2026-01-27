@@ -24,6 +24,7 @@ This repo was created as a way in accordance to Enterprise Programming group pro
 ### Sales Entry
 ![Sales Entry](./screenshots/salesentry.png)
 ![sales entry carprice](./screenshots/salesentrycarprice.png)
+![Sales entry confirm](./screenshots/salesentryconfirm.png)
 
 ### Sales Report
 ![Sales Report](./screenshots/salesreport.png)
