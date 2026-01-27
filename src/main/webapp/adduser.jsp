@@ -28,9 +28,9 @@ if (session.getAttribute("login") == null) {
         <ul>
             <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
             <li onclick="window.location.href='addCarController?action=list'">Cars</li>
-            <li class="active" onclick="window.location.href='SalesReportController'">Sales Report</li>
-            <li onclick="window.location.href='salesentry.jsp'">Sales Entry</li>
             <li class="active" onclick="window.location.href='addUserController?action=list'">Users</li>
+            <li onclick="window.location.href='SalesReportController'">Sales Report</li>
+            <li onclick="window.location.href='salesentry.jsp'">Sales Entry</li>
             <li onclick="window.location.href='LogoutController'">Logout</li>
         </ul>
     </div>

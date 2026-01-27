@@ -100,7 +100,7 @@ public class addUserController extends HttpServlet {
 
         User u = new User();
         u.setUsername(request.getParameter("username"));
-        u.setPassword(request.getParameter("password")); // DAO will hash
+        u.setPassword(request.getParameter("password")); 
         u.setFullname(request.getParameter("fullname"));
         u.setRole(request.getParameter("role"));
         u.setEmail(request.getParameter("email"));
@@ -129,7 +129,7 @@ public class addUserController extends HttpServlet {
 
     // 5. UPDATE
     private void updateUser(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, NoSuchAlgorithmException {
+            throws SQLException, IOException, NoSuchAlgorithmException, ServletException {
 
         User u = new User();
         u.setUserId(Integer.parseInt(request.getParameter("userId")));
@@ -138,6 +138,18 @@ public class addUserController extends HttpServlet {
         u.setFullname(request.getParameter("fullname"));
         u.setRole(request.getParameter("role"));
         u.setEmail(request.getParameter("email"));
+        
+        // --- Avatar upload (optional) ---
+        Part filePart = request.getPart("avatar"); 
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = filePart.getSubmittedFileName();
+            String uploadDir = getServletContext().getRealPath("/images/users");
+            File uploads = new File(uploadDir);
+            if (!uploads.exists()) uploads.mkdirs();
+            filePart.write(uploadDir + File.separator + fileName);
+            u.setAvatar("images/users/" + fileName);
+        }
+        // -------------------------------
 
         AddUserDAO.updateUser(u);
         response.sendRedirect("addUserController?action=list");
