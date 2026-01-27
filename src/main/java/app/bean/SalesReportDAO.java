@@ -195,7 +195,7 @@ public class SalesReportDAO {
             }
         }
 
-        // Optional: reverse so it shows oldest -> newest
+        // Reverse so it shows oldest -> newest
         java.util.Collections.reverse(list);
         return list;
     }

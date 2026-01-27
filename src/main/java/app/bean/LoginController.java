@@ -31,10 +31,8 @@ public class LoginController extends HttpServlet {
             if (login.isLoggedIn()) {
                 HttpSession session = request.getSession(true);
 
-                // ✅ store the full user in session
+                
                 session.setAttribute("login", login);
-
-                // optional (keep if you still use elsewhere)
                 session.setAttribute("userid", login.getUserId());
                 session.setAttribute("username", login.getUsername());
 

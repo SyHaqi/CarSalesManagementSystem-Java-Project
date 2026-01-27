@@ -25,6 +25,7 @@ if (session.getAttribute("login") == null) {
 
 <div class="sidebar">
     <h2>CarSales</h2>
+    <c:set var="role" value="${sessionScope.login.role}" />
 	    <ul>
 			  <li onclick="window.location.href='SalesReportController?action=dashboard'">Dashboard</li>
 			

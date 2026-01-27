@@ -13,7 +13,6 @@ public class UserDAO {
     private static PreparedStatement ps = null;
     private static ResultSet rs = null;
 
-    // ✅ include avatar + fullname + role + email (so session has everything)
     private static final String SELECT_LOGIN =
         "SELECT userId, username, fullname, role, email, avatar FROM loginpage WHERE username = ? AND password = ?";
 

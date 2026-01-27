@@ -9,10 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - CarSales</title>
 
-    <!-- Reuse your theme -->
     <link rel="stylesheet" href="dashboard.css">
 
-    <!-- Small page-only styling (kept inside JSP to avoid making a new css file) -->
     <style>
         .auth-wrapper{
             min-height: 100vh;

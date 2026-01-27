@@ -7,7 +7,7 @@ public class SalesReport {
     private String customerName;
     private String carName;      // e.g. "Honda City"
     private double totalCost;
-    private String salesperson;  // username
+    private String salesperson;  
     private Date saleDate;
     
 	public SalesReport() {

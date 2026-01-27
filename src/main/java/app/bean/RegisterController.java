@@ -25,10 +25,10 @@ public class RegisterController extends HttpServlet {
             u.setEmail(request.getParameter("email"));
             u.setPassword(request.getParameter("password"));
 
-            // ✅ Force role = Guest (ignore any incoming "role")
+            // Role as Guest
             u.setRole("Guest");
 
-            // ✅ Optional avatar upload, else default
+            // Avatar upload
             Part filePart = request.getPart("avatar");
             String avatarPath = "images/users/avatar-default.png";
 

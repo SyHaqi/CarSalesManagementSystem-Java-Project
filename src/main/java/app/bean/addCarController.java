@@ -45,9 +45,9 @@ public class addCarController extends HttpServlet {
 
         try {
             if ("update".equals(action)) {
-                updateCar(request, response); // NEW method for updating
+                updateCar(request, response); // update car request method
             } else {
-                addCar(request, response);    // existing method for adding
+                addCar(request, response);   // addcar request method
             }
         } catch (SQLException e) {
             throw new ServletException(e);
@@ -67,7 +67,7 @@ public class addCarController extends HttpServlet {
 
         if (query != null && !query.isEmpty()) {
             for (addcarbean car : allCars) {
-                // Check if model or brand contains the query (case-insensitive)
+                // Check if model or brand contains the query
                 if (car.getModel().toLowerCase().contains(query.toLowerCase()) ||
                     car.getBrand().toLowerCase().contains(query.toLowerCase())) {
                     filteredCars.add(car);
@@ -147,7 +147,7 @@ public class addCarController extends HttpServlet {
         car.setPrice(Double.parseDouble(request.getParameter("price")));
         car.setStock(Integer.parseInt(request.getParameter("stock")));
 
-        // Handle file upload (optional)
+        // Handle file upload
         Part filePart = request.getPart("carImagePath");
         if (filePart != null && filePart.getSize() > 0) {
             String fileName = filePart.getSubmittedFileName();
@@ -157,7 +157,7 @@ public class addCarController extends HttpServlet {
             filePart.write(uploadDir + File.separator + fileName);
             car.setCarImagePath("images/cars/" + fileName); // replace old image
         }
-        // else: keep old image path
+        // else keep old image path
 
         AddCarDAO.updateCar(car);
 

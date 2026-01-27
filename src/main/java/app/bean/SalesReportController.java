@@ -53,17 +53,14 @@ public class SalesReportController extends HttpServlet {
     private void showDashboard(HttpServletRequest request, HttpServletResponse response)
             throws Exception {
 
-        // KPIs (all time)
         request.setAttribute("totalCarsSold", SalesReportDAO.getTotalCarsSold(null, null));
         request.setAttribute("totalRevenue", SalesReportDAO.getTotalRevenue(null, null));
         request.setAttribute("totalCommission", SalesReportDAO.getTotalCommission(null, null));
         request.setAttribute("carsInInventory", SalesReportDAO.getCarsInInventory());
 
-        // Tables replacing charts
+        // Tables 
         request.setAttribute("monthlySales", SalesReportDAO.getMonthlySalesLast6());
         request.setAttribute("stockByBrand", SalesReportDAO.getStockByBrand());
-
-        // Recent sales table in dashboard (reuse your report list, just show top 5 in JSP)
         request.setAttribute("recentSales", SalesReportDAO.getSales(null, null));
 
         RequestDispatcher rd = request.getRequestDispatcher("Dashboard.jsp");

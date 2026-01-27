@@ -74,7 +74,7 @@ public class SalesController extends HttpServlet {
             con = ConnectionManager.getConnection();
             con.setAutoCommit(false);
 
-            // 1) fetch car info + ensure stock > 0
+            // fetch car info + ensure stock > 0
             double carPrice;
             String carBrand;
             String carModel;
@@ -94,7 +94,7 @@ public class SalesController extends HttpServlet {
 
             if (stock <= 0) throw new ServletException("Car is out of stock.");
 
-            // 2) accessories total
+            // accessories total
             double accessoriesTotal = 0.0;
             if (accessories != null) {
                 for (String a : accessories) {
@@ -104,7 +104,7 @@ public class SalesController extends HttpServlet {
 
             double totalCost = carPrice + accessoriesTotal;
 
-            // 3) insert sale
+            // insert sale
             int saleId;
             try (PreparedStatement ps = con.prepareStatement(
                     "INSERT INTO sales (userId, carID, customerName, totalCost, commission, saleDate) VALUES (?, ?, ?, ?, ?, ?)",
@@ -123,7 +123,7 @@ public class SalesController extends HttpServlet {
                 }
             }
 
-            // 4) insert accessories
+            // insert accessories
             if (accessories != null) {
                 try (PreparedStatement ps = con.prepareStatement(
                         "INSERT INTO accessories (saleID, accessoryName, cost) VALUES (?, ?, ?)")) {
@@ -137,7 +137,7 @@ public class SalesController extends HttpServlet {
                 }
             }
 
-            // 5) reduce stock by 1
+            // reduce stock by 1
             try (PreparedStatement ps = con.prepareStatement(
                     "UPDATE cars SET stock = stock - 1 WHERE carID=?")) {
                 ps.setInt(1, carId);
@@ -146,7 +146,7 @@ public class SalesController extends HttpServlet {
 
             con.commit();
 
-            // 6) forward to confirmation page with details
+            // forward to confirmation page with details
             request.setAttribute("saleId", saleId);
             request.setAttribute("customerName", customerName);
             request.setAttribute("saleDate", saleDate);

@@ -60,7 +60,7 @@ public class AddUserDAO {
                 u.setFullname(rs.getString("fullname"));
                 u.setRole(rs.getString("role"));
                 u.setEmail(rs.getString("email"));
-                u.setAvatar(rs.getString("avatar"));   // ✅ IMPORTANT
+                u.setAvatar(rs.getString("avatar"));   
                 list.add(u);
             }
 
@@ -91,7 +91,7 @@ public class AddUserDAO {
                 u.setFullname(rs.getString("fullname"));
                 u.setRole(rs.getString("role"));
                 u.setEmail(rs.getString("email"));
-                u.setAvatar(rs.getString("avatar"));  // ✅ IMPORTANT
+                u.setAvatar(rs.getString("avatar"));  
             }
 
             rs.close();
@@ -105,7 +105,7 @@ public class AddUserDAO {
 
     // UPDATE
     // - password optional (if empty -> keep old)
-    // - avatar optional (if null/empty -> keep old)
+    // - avatar optional (if empty -> keep old)
     public static void updateUser(User user) throws SQLException, NoSuchAlgorithmException {
 
         boolean updatePassword = user.getPassword() != null && !user.getPassword().trim().isEmpty();

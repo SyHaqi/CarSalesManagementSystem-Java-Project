@@ -105,7 +105,7 @@ public class addUserController extends HttpServlet {
         u.setRole(request.getParameter("role"));
         u.setEmail(request.getParameter("email"));
 
-        // --- Avatar upload (filepath) ---
+        // Avatar image upload
         Part filePart = request.getPart("avatar");
         String avatarPath = "images/users/avatar-default.png";
 
@@ -120,7 +120,7 @@ public class addUserController extends HttpServlet {
         }
 
         u.setAvatar(avatarPath);
-        // -------------------------------
+        
 
         AddUserDAO.addUser(u);
         response.sendRedirect("addUserController?action=list");

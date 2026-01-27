@@ -57,7 +57,6 @@ if (session.getAttribute("login") == null) {
 
             <form action="addUserController" method="post" enctype="multipart/form-data">
 
-                <!-- If editing, these will have values; if adding, they’ll be empty -->
                 <input type="hidden" name="userId" value="${user.userId}">
                 <input type="hidden" name="existingAvatar" value="${user.avatar}">
 

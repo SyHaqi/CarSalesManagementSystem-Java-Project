@@ -63,7 +63,7 @@ if (session.getAttribute("login") == null) {
         </div>
     </header>
 
-    <!-- Search + Add Car Button -->
+    <!-- Search & Add Car Button -->
     <div class="car-search-section" style="display:flex; justify-content:center; align-items:center; gap:15px;">
         <input type="text" id="carSearch" placeholder="Search car model or brand..." style="width:50%;">
 

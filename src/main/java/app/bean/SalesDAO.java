@@ -21,7 +21,7 @@ public class SalesDAO {
             con = ConnectionManager.getConnection();
             con.setAutoCommit(false);
 
-            // 1) check stock
+            // check stock
             try (PreparedStatement ps = con.prepareStatement(checkStockSql)) {
                 ps.setInt(1, sale.getCarID());
                 try (ResultSet rs = ps.executeQuery()) {
@@ -35,7 +35,7 @@ public class SalesDAO {
                 }
             }
 
-            // 2) reduce stock
+            // reduce stock
             try (PreparedStatement ps = con.prepareStatement(updateStockSql)) {
                 ps.setInt(1, sale.getCarID());
                 int affected = ps.executeUpdate();
@@ -44,7 +44,7 @@ public class SalesDAO {
                 }
             }
 
-            // 3) insert sale
+            // insert sale
             try (PreparedStatement ps = con.prepareStatement(insertSaleSql)) {
                 ps.setInt(1, sale.getUserId());
                 ps.setInt(2, sale.getCarID());
